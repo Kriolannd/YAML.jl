@@ -7,49 +7,62 @@ export YAMLError,
     YAMLReaderError,
     YAMLScannerError,
     YAMLParserError,
-    throw_err
+    throw_yaml_err
 
-struct YAMLError <: Exception 
+
+abstract type AbstractYAMLError <: Exception end
+
+struct YAMLError <: AbstractYAMLError
     msg::String
 end
 
 
-struct YAMLMemoryError <: YAMLError
+struct YAMLMemoryError <: AbstractYAMLError
     ctx::String
     problem::String
 end
 
 
-struct YAMLReaderError <: YAMLError
+struct YAMLReaderError <: AbstractYAMLError
     ctx::String
     problem::String
 end
 
 
-struct YAMLScannerError <: YAMLError
+struct YAMLScannerError <: AbstractYAMLError
     ctx::String
     problem::String
 end
 
 
-struct YAMLParserError <: YAMLError
+struct YAMLParserError <: AbstractYAMLError
     ctx::String
     problem::String
 end
 
 
-function Base.showerror(io::IO, err::YAMLError)
+function Base.showerror(io::IO, err::AbstractYAMLError)
     print(io, "[CONTEXT]: $(err.ctx) | [ERROR]: $(err.problem)")
 end
 
 
-throw_err(::Val{YAML_MEMORY_ERROR}, context::String, problem::String) = 
-    throw(YAMLMemoryError(context, problem))
-throw_err(::Val{YAML_READER_ERROR}, context::String, problem::String) = 
-    throw(YAMLReaderError(context, problem))
-throw_err(::Val{YAML_SCANNER_ERROR}, context::String, problem::String) = 
-    throw(YAMLScannerError(context, problem))
-throw_err(::Val{YAML_PARSER_ERROR}, context::String, problem::String) = 
-    throw(YAMLParserError(context, problem))
+function Base.showerror(io::IO, err::YAMLError)
+    print(io, err.msg)
+end
+
+
+function throw_yaml_err(type::yaml_error_type_e, context::String, problem::String)
+    if type == YAML_MEMORY_ERROR
+        throw(YAMLMemoryError(context, problem))
+    elseif type == YAML_READER_ERROR
+        throw(YAMLReaderError(context, problem))
+    elseif type == YAML_SCANNER_ERROR
+        throw(YAMLScannerError(context, problem))
+    elseif type == YAML_PARSER_ERROR
+        throw(YAMLParserError(context, problem))
+    end
+
+    return nothing
+end
 
 end # module YAMLErrors
