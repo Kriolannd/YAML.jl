@@ -18,8 +18,10 @@ function parse_yaml_str(yaml_str::String)
     success = yaml_parser_initialize(parser)
     success == 0 && throw_yaml_err(
         parser[].error,
-        unsafe_string(parser[].context), 
-        unsafe_string(parser[].problem),
+        parser[].context, 
+        parser[].context_mark,
+        parser[].problem,
+        parser[].problem_mark,
     )
     yaml_parser_set_input_string(parser, pointer(yaml_str), sizeof(yaml_str))
 
@@ -28,9 +30,11 @@ function parse_yaml_str(yaml_str::String)
 
         success = yaml_parser_load(parser, doc)
         success == 0 && throw_yaml_err(
-            parser[].error, 
-            unsafe_string(parser[].context), 
-            unsafe_string(parser[].problem),
+            parser[].error,
+            parser[].context, 
+            parser[].context_mark,
+            parser[].problem,
+            parser[].problem_mark,
         )
 
         root = yaml_document_get_root_node(doc) 
