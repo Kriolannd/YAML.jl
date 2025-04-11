@@ -1,4 +1,4 @@
-module YAML
+module EasyYAML
 
 using LibYAML
 

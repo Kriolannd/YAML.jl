@@ -1,10 +1,10 @@
-# YAML.jl
+# EasyYAML.jl
 Julia wrapper package for parsing `yaml` files 
 
 USAGE
 ---
 ```
-using YAML
+using EasyYAML
 
 yaml_str = """
 retCode: 0

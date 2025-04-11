@@ -1,4 +1,4 @@
-name = "YAML"
+name = "EasyYAML"
 uuid = "80db1c73-95ef-4940-8d6a-4f97f7b0cf53"
 authors = ["karelio <Kriolannd@yandex.ru>"]
 version = "0.1.0"

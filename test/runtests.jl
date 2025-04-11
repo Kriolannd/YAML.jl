@@ -1,4 +1,4 @@
-using Test, YAML, YAML.YAMLErrors
+using Test, EasyYAML, EasyYAML.YAMLErrors
 
 
 @testset "Correct YAML test" begin
